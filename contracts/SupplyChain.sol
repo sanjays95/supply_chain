@@ -48,7 +48,7 @@ contract SupplyChain {
         _;
     }
 
-    modifier verifyCaller(address _address) {require (msg.sender == _address); _;}
+    modifier verifyCaller(address _address) {require (msg.sender == _address,"call not verified"); _;}
 
     modifier paidEnough(uint _price) {require(msg.value >= _price,"Not enough price sent"); _;}
     modifier checkValue(uint _sku) {
@@ -88,7 +88,7 @@ contract SupplyChain {
     refunded any excess ether sent. Remember to call the event associated with this function!*/
 
     function buyItem(uint sku)
-    public payable ForSale(sku) checkValue(sku) paidEnough(items[sku].price)
+    public payable ForSale(sku) paidEnough(items[sku].price) checkValue(sku) 
    {
         items[sku].seller.transfer(items[sku].price);
         items[sku].buyer = msg.sender;
